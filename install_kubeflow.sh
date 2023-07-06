@@ -172,11 +172,11 @@ if ! command -v kustomize &> /dev/null
 then
     echo "Kustomize not found - installing to /user/local/bin/..."
     kustomize_version=5.0.0
-    curl --silent --location --remote-name "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv$kustomize_version/kustomize_v$kustomize_version_linux_ppc64le.tar.gz"
-    tar -xzvf kustomize_v$kustomize_version_linux_ppc64le.tar.gz
+    curl --silent --location --remote-name "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${kustomize_version}/kustomize_v${kustomize_version}_linux_ppc64le.tar.gz"
+    tar -xzvf kustomize_v${kustomize_version}_linux_ppc64le.tar.gz
     chmod a+x kustomize
     sudo mv kustomize /usr/local/bin/kustomize
-    rm -f kustomize_v$kustomize_version_linux_ppc64le.tar.gz
+    rm -f kustomize_v${kustomize_version}_linux_ppc64le.tar.gz
 fi
 
 # get helm if not there
@@ -249,7 +249,7 @@ esac
 if [ -d "$MANIFESTS" ]; then
     echo "Warning: $MANIFESTS already exists; skipping git clone."
 else
-    git clone --branch $kubeflow_version https://github.com/lehrig/kubeflow-ppc64le-manifests.git $MANIFESTS
+    git clone --branch ${kubeflow_version} https://github.com/lehrig/kubeflow-ppc64le-manifests.git $MANIFESTS
 fi
 
 ###########################################################################################################################
@@ -1068,3 +1068,4 @@ Next:
   - Username: admin@example.com | user@example.com
   - Password: 12341234
 POSTINSTALL
+
