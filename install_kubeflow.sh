@@ -14,7 +14,7 @@ else
       kubeflow_version=$KUBEFLOW_VERSION
 fi
 
-if [-z "$KUBEflOW_MANIFESTS" ]
+if [-z "$KUBEFLOW_MANIFESTS" ]
 then
       kubeflow_manifests = "https://github.com/lehrig/kubeflow-ppc64le-manifests.git"
 else  
