@@ -14,6 +14,13 @@ else
       kubeflow_version=$KUBEFLOW_VERSION
 fi
 
+if [-z "$KUBEflOW_MANIFESTS" ]
+then
+      kubeflow_manifests = "https://github.com/lehrig/kubeflow-ppc64le-manifests.git"
+else  
+      kubeflow_manifests = "${KUBEFLOW_MANIFESTS}"
+fi
+
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 RED='\033[0;31m'
@@ -249,7 +256,7 @@ esac
 if [ -d "$MANIFESTS" ]; then
     echo "Warning: $MANIFESTS already exists; skipping git clone."
 else
-    git clone --branch ${kubeflow_version} https://github.com/lehrig/kubeflow-ppc64le-manifests.git $MANIFESTS
+    git clone --branch ${kubeflow_version} ${kubeflow_manifests} $MANIFESTS
 fi
 
 ###########################################################################################################################
@@ -1068,4 +1075,3 @@ Next:
   - Username: admin@example.com | user@example.com
   - Password: 12341234
 POSTINSTALL
-

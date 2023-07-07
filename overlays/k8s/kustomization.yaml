@@ -2,60 +2,61 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../../base
-# Cert-Manager
-- https://github.com/kubeflow/manifests/common/cert-manager/cert-manager/base?ref=v1.7.0
-- https://github.com/kubeflow/manifests/common/cert-manager/kubeflow-issuer/base?ref=v1.7.0
-# Istio
-- https://github.com/kubeflow/manifests/common/istio-1-16/istio-crds/base?ref=v1.7.0
-- https://github.com/kubeflow/manifests/common/istio-1-16/istio-namespace/base?ref=v1.7.0
-- https://github.com/kubeflow/manifests/common/istio-1-16/istio-install/base?ref=v1.7.0
-# OIDC Authservice
-- https://github.com/kubeflow/manifests/common/oidc-authservice/base?ref=v1.7.0
-# Dex
-- https://github.com/kubeflow/manifests/common/dex/overlays/istio?ref=v1.7.0
-# KNative
-- https://github.com/kubeflow/manifests/common/knative/knative-serving/overlays/gateways?ref=v1.7.0
-- https://github.com/kubeflow/manifests/common/knative/knative-eventing/base?ref=v1.7.0
+  - ../../base
+  # Cert-Manager
+  - https://github.com/kubeflow/manifests/common/cert-manager/cert-manager/base?ref=v1.7.0
+  - https://github.com/kubeflow/manifests/common/cert-manager/kubeflow-issuer/base?ref=v1.7.0
+  # Istio
+  - https://github.com/kubeflow/manifests/common/istio-1-16/istio-crds/base?ref=v1.7.0
+  - https://github.com/kubeflow/manifests/common/istio-1-16/istio-namespace/base?ref=v1.7.0
+  - https://github.com/kubeflow/manifests/common/istio-1-16/istio-install/base?ref=v1.7.0
+  # OIDC Authservice
+  - https://github.com/kubeflow/manifests/common/oidc-authservice/base?ref=v1.7.0
+  # Dex
+  - https://github.com/kubeflow/manifests/common/dex/overlays/istio?ref=v1.7.0
+  # KNative
+  - https://github.com/kubeflow/manifests/common/knative/knative-serving/overlays/gateways?ref=v1.7.0
+  - https://github.com/kubeflow/manifests/common/knative/knative-eventing/base?ref=v1.7.0
 
-# User namespace
-- https://github.com/kubeflow/manifests/common/user-namespace/base?ref=v1.7.0
-- onboarding
+  # User namespace
+  - https://github.com/kubeflow/manifests/common/user-namespace/base?ref=v1.7.0
+  - onboarding
 
-# HTTPS
-- certificate.yaml
+  # HTTPS
+  - certificate.yaml
 
 configMapGenerator:
   - name: global-parameters
     env: global-params.env
 
 replacements:
-- source:
-    name: global-parameters
-    kind: ConfigMap
-    version: v1
-    fieldPath: data.externalIpAddress
-  targets:
-  - select:
-      kind: Certificate
-      name: kubeflow-ingressgateway-certs
-    fieldPaths:
-    - spec.ipAddresses.0
+  - source:
+      name: global-parameters
+      kind: ConfigMap
+      version: v1
+      fieldPath: data.externalIpAddress
+    targets:
+      - select:
+          kind: Certificate
+          name: kubeflow-ingressgateway-certs
+        fieldPaths:
+          - spec.ipAddresses.0
 
 patches:
-- path: rewire-istio-images.yaml
-- path: kf-istio-resources.yaml
+  - path: rewire-istio-images-configmap.yaml
+  - path: rewire-istio-images-deployment.yaml
+  - path: kf-istio-resources.yaml
 
 images:
-- name: docker.io/istio/proxyv2
-  newName: quay.io/ibm/istio-proxyv2-ppc64le
-  newTag: 1.16.0
-- name: docker.io/istio/pilot
-  newName: quay.io/ibm/istio-pilot-ppc64le
-  newTag: 1.16.0
-- name: gcr.io/arrikto/kubeflow/oidc-authservice
-  newName: quay.io/ibm/kubeflow-oidc-authservice-ppc64le
-  newTag: e236439
-- name: ghcr.io/dexidp/dex
-  newName: quay.io/ibm/kubeflow-dex-ppc64le
-  newTag: v2.31.2
+  - name: docker.io/istio/proxyv2
+    newName: quay.io/ibm/istio-proxyv2-ppc64le
+    newTag: 1.16.0
+  - name: docker.io/istio/pilot
+    newName: quay.io/ibm/istio-pilot-ppc64le
+    newTag: 1.16.0
+  - name: gcr.io/arrikto/kubeflow/oidc-authservice
+    newName: quay.io/ibm/kubeflow-oidc-authservice-ppc64le
+    newTag: e236439
+  - name: ghcr.io/dexidp/dex
+    newName: quay.io/ibm/kubeflow-dex-ppc64le
+    newTag: v2.31.2
