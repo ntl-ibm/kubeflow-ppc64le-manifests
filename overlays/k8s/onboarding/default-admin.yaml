@@ -1,16 +1,27 @@
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: kubeflow-admin-example-com
+spec:
+  owner:
+    kind: User
+    name: admin@example.com
+  resourceQuotaSpec: {} # resource quota can be set optionally
+---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: bind-ml-pipeline-nb-kubeflow-admin-example-com
- namespace: kubeflow
+  name: bind-ml-pipeline-nb-kubeflow-admin-example-com
+  namespace: kubeflow
 spec:
- selector:
-   matchLabels:
-     app: ml-pipeline
- rules:
- - from:
-   - source:
-       principals: ["cluster.local/ns/kubeflow-admin-example-com/sa/default-editor"]
+  selector:
+    matchLabels:
+      app: ml-pipeline
+  rules:
+    - from:
+        - source:
+            principals:
+              ["cluster.local/ns/kubeflow-admin-example-com/sa/default-editor"]
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
@@ -19,22 +30,22 @@ metadata:
   namespace: kubeflow-admin-example-com
 spec:
   configPatches:
-  - applyTo: VIRTUAL_HOST
-    match:
-      context: SIDECAR_OUTBOUND
-      routeConfiguration:
-        vhost:
-          name: ml-pipeline.kubeflow.svc.cluster.local:8888
-          route:
-            name: default
-    patch:
-      operation: MERGE
-      value:
-        request_headers_to_add:
-        - append: true
-          header:
-            key: kubeflow-userid
-            value: admin@example.com
+    - applyTo: VIRTUAL_HOST
+      match:
+        context: SIDECAR_OUTBOUND
+        routeConfiguration:
+          vhost:
+            name: ml-pipeline.kubeflow.svc.cluster.local:8888
+            route:
+              name: default
+      patch:
+        operation: MERGE
+        value:
+          request_headers_to_add:
+            - append: true
+              header:
+                key: kubeflow-userid
+                value: admin@example.com
 ---
 apiVersion: kubeflow.org/v1alpha1
 kind: PodDefault
@@ -53,7 +64,7 @@ spec:
           - serviceAccountToken:
               path: token
               expirationSeconds: 7200
-              audience: pipelines.kubeflow.org      
+              audience: pipelines.kubeflow.org
   volumeMounts:
     - mountPath: /var/run/secrets/kubeflow/pipelines
       name: volume-kf-pipeline-token
