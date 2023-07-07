@@ -16,9 +16,9 @@ fi
 
 if [ -z "$KUBEFLOW_MANIFESTS" ]
 then
-      kubeflow_manifests = "https://github.com/lehrig/kubeflow-ppc64le-manifests.git"
+      kubeflow_manifests="https://github.com/lehrig/kubeflow-ppc64le-manifests.git"
 else  
-      kubeflow_manifests = "${KUBEFLOW_MANIFESTS}"
+      kubeflow_manifests="${KUBEFLOW_MANIFESTS}"
 fi
 
 BOLD=$(tput bold)
