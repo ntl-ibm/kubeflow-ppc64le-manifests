@@ -1,13 +1,13 @@
-#apiVersion: kubeflow.org/v1beta1
-#kind: Profile
-#metadata:
-#  name: kubeflow-admin-example-com
-#spec:
-#  owner:
-#    kind: User
-#    name: admin@example.com
-#  resourceQuotaSpec: {} # resource quota can be set optionally
-#---
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: kubeflow-admin-example-com
+spec:
+  owner:
+    kind: User
+    name: admin@example.com
+  resourceQuotaSpec: {} # resource quota can be set optionally
+---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
