@@ -314,6 +314,7 @@ echo -e "# Initializing Kubeflow Installation; please wait... #"
 echo -e "######################################################"
 echo -e ""
 
+kustomize build $KUBEFLOW_KUSTOMIZE > /tmp/build.yaml
 while ! kustomize build $KUBEFLOW_KUSTOMIZE | envsubst '${EXTERNAL_IP_ADDRESS}' | awk '!/well-defined/' | kubectl apply -f -; do echo -e "Retrying to apply resources for Kubeflow..."; sleep 10; done
 
 # Ensure istio is up and side-cars are injected into kubeflow namespace afterwards (by restarting pods)
