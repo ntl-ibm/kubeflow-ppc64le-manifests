@@ -179,7 +179,7 @@ if ! command -v kustomize &> /dev/null
 then
     echo "Kustomize not found - installing to /user/local/bin/..."
     kustomize_version=5.0.0
-    curl --silent --location --remote-name "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${kustomize_version}/kustomize_v${kustomize_version}_linux_ppc64le.tar.gz"
+    curl --location --remote-name "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${kustomize_version}/kustomize_v${kustomize_version}_linux_ppc64le.tar.gz"
     tar -xzvf kustomize_v${kustomize_version}_linux_ppc64le.tar.gz
     chmod a+x kustomize
     sudo mv kustomize /usr/local/bin/kustomize
