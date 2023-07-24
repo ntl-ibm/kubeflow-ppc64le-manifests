@@ -283,13 +283,13 @@ case "$install_operators" in
 
         # Install GPU Operator
         oc create namespace gpu-operator
-        git clone -b ppc64le_v1.10.1 https://github.com/mgiessing/gpu-operator.git $GIT/gpu-operator
+        git clone -b ppc64le_v22.9.2 https://github.com/mgiessing/gpu-operator.git $GIT/gpu-operator
         sed -i 's/use_ocp_driver_toolkit: false/use_ocp_driver_toolkit: true/g' $GIT/gpu-operator/deployments/gpu-operator/values.yaml
         helm install -n gpu-operator --wait --generate-name $GIT/gpu-operator/deployments/gpu-operator
 
         # Configure Grafana
         # Note: Prometheus comes with OpenShift out-of-the-box
-	oc apply overlays/openshift/grafana/enable-user-workload.yaml
+	oc apply -f overlays/openshift/grafana/enable-user-workload.yaml
         ;;
   * ) ;;
 esac
