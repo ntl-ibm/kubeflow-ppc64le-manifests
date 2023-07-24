@@ -287,9 +287,9 @@ case "$install_operators" in
         sed -i 's/use_ocp_driver_toolkit: false/use_ocp_driver_toolkit: true/g' $GIT/gpu-operator/deployments/gpu-operator/values.yaml
         helm install -n gpu-operator --wait --generate-name $GIT/gpu-operator/deployments/gpu-operator
 
-        # Configure Grafana
+        # Configure cluster-monitoring-config for Grafana (installed later)
         # Note: Prometheus comes with OpenShift out-of-the-box
-	oc apply -f overlays/openshift/grafana/enable-user-workload.yaml
+	oc apply -f $KUBEFLOW_KUSTOMIZE/grafana/enable-user-workload.yaml
         ;;
   * ) ;;
 esac
