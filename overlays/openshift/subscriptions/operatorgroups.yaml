@@ -24,4 +24,13 @@ metadata:
   namespace: openshift-nfd
 spec:
   targetNamespaces:
-  - openshift-nfd
+    - openshift-nfd
+---
+apiVersion: operators.coreos.com/v1alpha2
+kind: OperatorGroup
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  targetNamespaces:
+    - grafana
