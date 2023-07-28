@@ -276,7 +276,7 @@ case "$install_operators" in
         oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:cert-manager:cert-manager-cainjector  
 
         # Install subscriptions (operators from OperatorHub)
-        while ! kustomize build $KUBEFLOW_KUSTOMIZE/subscriptions | awk '!/well-defined/' | oc apply -f -; do echo -e "Retrying to apply resources for Cert Manager..."; sleep 10; done
+        while ! kustomize build $KUBEFLOW_KUSTOMIZE/subscriptions | awk '!/well-defined/' | oc apply -f -; do echo -e "Retrying to apply resources for Subscriptions..."; sleep 10; done
 
         # Configure node feature discovery
         while ! kustomize build $KUBEFLOW_KUSTOMIZE/nfd | awk '!/well-defined/' | oc apply -f -; do echo -e "Retrying to apply resources for Node Feature Discovery..."; sleep 10; done
