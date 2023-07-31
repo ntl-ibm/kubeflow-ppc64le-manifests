@@ -1,0 +1,83 @@
+# Create Gateways and Network Policies per https://access.redhat.com/documentation/en-us/red_hat_openshift_serverless/1.29/html-single/integrations/index
+# This configuration does not enable TLS, even for external traffic
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-serving
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: knative-serving-pods
+  namespace: knative-serving
+spec:
+  podSelector: {}
+  ingress:
+    - {}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: knative-ingress-gateway
+  namespace: knative-serving
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: knative-local-gateway
+  namespace: knative-serving
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: knative-local-gateway
+  namespace: istio-system
+  labels:
+    experimental.istio.io/disable-gateway-port-translation: "true"
+spec:
+  type: ClusterIP
+  selector:
+    istio: ingressgateway
+  ports:
+    - name: http2
+      port: 80
+      targetPort: 8080
+---
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+spec:
+  ingress:
+    istio:
+      enabled: true
+  deployments:
+    - name: activator
+      annotations:
+        "sidecar.istio.io/inject": "true"
+        "sidecar.istio.io/rewriteAppHTTPProbers": "true"
+    - name: autoscaler
+      annotations:
+        "sidecar.istio.io/inject": "true"
+        "sidecar.istio.io/rewriteAppHTTPProbers": "true"
