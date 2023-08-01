@@ -57,7 +57,7 @@ data:
       },
       "darts": {
         "image": "quay.io/mgiessing/suggestion-darts:v0.15.0"
-      }
+      },
       "pbt": {
         "image": "quay.io/mgiessing/suggestion-pbt:v0.15.0",
         "persistentVolumeClaimSpec": {
