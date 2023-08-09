@@ -44,7 +44,7 @@ resources:
 # Kubeflow Pipelines
 - https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user?ref=v1.7.0
 # Katib
-- https://github.com/kubeflow/manifests/apps/katib/upstream/installs/katib-with-kubeflow?ref=v1.7.0
+- https://github.com/kubeflow/manifests/apps/katib/upstream/installs/katib-with-kubeflow?ref=v1.6.1
 # Central Dashboard
 - https://github.com/kubeflow/manifests/apps/centraldashboard/upstream/overlays/kserve?ref=v1.7.0
 # Admission Webhook
@@ -155,10 +155,10 @@ images:
   newTag: v0.14.0
 - name: docker.io/kubeflowkatib/katib-db-manager
   newName: quay.io/ibm/katib-db-manager-ppc64le
-  newTag: v0.15.0
+  newTag: v0.14.0
 - name: docker.io/kubeflowkatib/katib-ui
   newName: quay.io/ibm/katib-ui-ppc64le
-  newTag: v0.15.0
+  newTag: v0.14.0
 - name: mysql
   newName: quay.io/ibm/kubeflow-mariadb-ppc64le
   newTag: 10.2.19
