@@ -269,7 +269,7 @@ case "$install_operators" in
   y|Y ) # Install Cert Manager Operator
         # See: https://cert-manager.io/docs/installation/openshift/
         # TODO: Try from OperatorHub (when Kubeflow supports higher cert-manager versions)
-	oc create namespace cert-manager
+	oc create namespace cert-manager || true
         oc apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
         oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:cert-manager:cert-manager
         #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:cert-manager:cert-manager-webhook
